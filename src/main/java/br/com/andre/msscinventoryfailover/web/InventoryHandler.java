@@ -9,6 +9,7 @@ import reactor.core.publisher.Mono;
 
 import java.time.OffsetDateTime;
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -21,7 +22,7 @@ public class InventoryHandler {
                         .id(UUID.randomUUID())
                         .beerId(UUID.fromString("00000000-0000-0000-0000-000000000000"))
                         .quantityOnHand(999)
-                        .createdDate(OffsetDateTime.now()).build())), BeerInventoryDto.class);
+                        .createdDate(OffsetDateTime.now()).build())), List.class);
     }
 
 }
