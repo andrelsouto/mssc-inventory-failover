@@ -92,11 +92,11 @@
                     <verbose>true</verbose>
                     <authConfig>
                         <username>andre</username>
-                        <password>aA0132465798</password>
+                        <password>aA0132465798*</password>
                     </authConfig>
                     <images>
                         <image>
-                            <registry>https://stec.jfrog.io/artifactory/sete-docker-repo/</registry>
+                            <registry>stec.jfrog.io</registry>
                             <name>${docker.image.prefix}/${docker.image.name}</name>
                             <alias>${project.artifactId}</alias>
                             <build>
@@ -115,6 +115,51 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>dockerbuild</id>
+            <activation>
+                <file>
+                    <exists>src/main/docker/Dockerfile</exists>
+                </file>
+            </activation>
+            <build>
+                <plugins>
+                    <!--   push to docker with release-->
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <configuration>
+                            <registry>stec.jfrog.io</registry>
+                            <authConfig>
+                                <username>andre</username>
+                                <password>aA0132465798*</password>
+                            </authConfig>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>push-to-docker</id>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>build</goal>
+                                    <goal>push</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>a0dtosdgiqhpb-artifactory-primary-0-snapshots</name>
+            <url>https://stec.jfrog.io/artifactory/libs-snapshot-local</url>
+        </snapshotRepository>
+    </distributionManagement>
 
 </project>
 
